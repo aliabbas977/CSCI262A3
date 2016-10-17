@@ -49,6 +49,8 @@
 #include "traffic.h"
 using namespace std;
 
+bool check_consistency(vector<vehicle_type>&, vector<vehicle_stats>&, ostream&);
+
 int main(int argc, char *argv[])
 {
     ifstream ifs;
@@ -58,42 +60,89 @@ int main(int argc, char *argv[])
     road_stats road;
     int days;
 
-    /* check for required command-line arguments and exit if there aren't enough */
+    /* PART ONE: INITIAL INPUT */
+
+    // check for required command-line arguments and exit if there aren't enough
     if (argc < 4){
         cerr << "Not enough arguments specified on the command-line.\n"
              << "Usage: Traffic <vehicle types file> <statistics file> <days to analyze>" << endl;
-        return 1;           // abnormal program termination
+        return 1;                   // abnormal program termination
     }
 
-    /* open first file specified on the command-line (Vehicles.txt) and read in data */
+    // open first file specified on the command-line (usually Vehicles.txt) and read in data
     ifs.open(argv[1]);
     if (ifs.is_open()){
         int count; ifs >> count;
+        // code
+        if (vehicles.empty()){      // check that we actually read in some data
+            cout << "No vehicle types found." << endl;
+            return 1;               // abnormal program termination
+        }
     } else {
         cerr << "Unable to open file " << argv[1] << endl;
-        return 1;           // abnormal program termination
+        return 1;                   // abnormal program termination
     }
     ifs.close();
 
-    /* open second file specified on the command-line (Stats.txt) and read in data */
+    // open second file specified on the command-line (usually Stats.txt) and read in data
     ifs.open(argv[2]);
     if (ifs.is_open()){
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
         road.update(length, limit, spaces);
         road.print(cout);
+        // code
+        if (stats.empty()){         // check that we actually read in some data
+            cout << "No vehicle statistics found." << endl;
+            return 1;               // abnormal program termination
+        }
     } else {
         cerr << "Unable to open file " << argv[2] << endl;
-        return 1;           // abnormal program termination
+        return 1;                   // abnormal program termination
     }
     ifs.close();
 
-    /* check for inconsistencies between the two files read in */
+    // check for inconsistencies between the two files read in
+    check_consistency(vehicles, stats, cout);
 
-    /* PART TWO GOES HERE */
+    /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATING AND LOG EVENTS */
 
-    /* PART THREE GOES HERE */
+    /* PART THREE: CALLING THE ANALYSIS ENGINE TO PRODUCE STATISTICS */
 
-    /* PART FOUR GOES HERE */
+    /* PART FOUR GOES HERE: CALLING THE ALERT ENGINE TO CHECK CONSISTENCY BETWEEN "LIVE DATA" AND BASE LINE STATISTICS */
 
     return 0;
+}
+
+// checks for consistency between a vector of vehicle_types and a vector of vehicle_stats
+//     if inconsistencies are found, it outputs details and returns false
+//     if no inconsistencies are found, it outputs details and returns true
+bool check_consistency(vector<vehicle_type>& vehicles, vector<vehicle_stats>& stats, ostream& out)
+{
+    bool consistent = true;
+    int vehicle_count = vehicles.size();
+    int stats_count = stats.size();
+
+    // check if the same amount of vehicle types as there are vehicle stats
+    if (vehicle_count != stats_count){
+        out << "Count of vehicle types and count of vehicle stats differ.\n"
+            << "Types Counted: " << vehicle_count << "\t\tStats Counted: " << stats_count << '\n';
+        consistent = false;
+    }
+
+    // check that all vehicle types were monitored
+    for (int i = 0; i < vehicle_count; i++){
+        // stuff
+    }
+
+    // check that everything monitored is a vehicle type we are trying to monitor
+    for (int i = 0; i < vehicle_count; i++){
+        // stuff
+    }
+
+    /* ADD MORE CHECKS HERE IF YOU THINK OF THEM */
+
+    if (consistent == true)
+        out << "No inconsistencies found.\n";
+
+    return consistent;
 }
