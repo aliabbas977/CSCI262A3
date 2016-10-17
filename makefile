@@ -2,8 +2,11 @@
 
 CC = g++
 
-all : traffic.o activity.o analysis.o alert.o
-	$(CC) -o Traffic traffic.o activity.o analysis.o alert.o
+all : main.o traffic.o activity.o analysis.o alert.o
+	$(CC) -o Traffic main.o traffic.o activity.o analysis.o alert.o
+
+main.o : traffic.h main.cpp
+	$(CC) -c main.cpp
 
 traffic.o : traffic.h traffic.cpp
 	$(CC) -c traffic.cpp
