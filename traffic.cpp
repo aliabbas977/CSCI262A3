@@ -3,3 +3,5 @@
  *
  * Definitions for types and statistics classes.
  */
+
+#include "traffic.h"
