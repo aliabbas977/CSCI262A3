@@ -26,7 +26,7 @@ Add any more files as necessary!
 
 ## Notes
 
-Please avoid putting the following *in headers*:
+Please **avoid** putting the following *in headers*:
 
 >using namespace std;
 
@@ -34,7 +34,7 @@ Instead *in headers* please prefix standard library functions used with 'std::' 
 
 >std::cout << "Hello World" << std::endl;
 
-Please user include guards in headers.
+Please use include guards in headers.
 Please use cerr for error messages and cout for standard output.
 
 ## Useful References

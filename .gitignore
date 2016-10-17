@@ -1,8 +1,8 @@
+# Input files and logs
+*.txt
+
 # Compiled Object files
 *.o
 
 # Program
 Traffic
-
-# Input files and logs
-*.txt
