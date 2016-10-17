@@ -4,9 +4,11 @@
 
 Code stuff:
 
->traffic.h    : class declarations
+>main.cpp     : main driver file (i.e. the actual program stuff)
 
->traffic.cpp  : initial input and the driver code (i.e. the actual program stuff)
+>traffic.h    : vehicle types and statistics header
+
+>traffic.cpp  : vehicle types and statistics implementation
 
 >activity.cpp : activity engine and log generator stuff
 
@@ -32,6 +34,7 @@ Instead *in headers* please prefix standard library functions used with 'std::' 
 
 >std::cout << "Hello World" << std::endl;
 
+Please user include guards in headers.
 Please use cerr for error messages and cout for standard output.
 
 ## Useful References
