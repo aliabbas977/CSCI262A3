@@ -36,13 +36,8 @@ Please use cerr for error messages and cout for standard output.
 
 ## Useful References
 
-* Google C++ Style Guide
-..* https://google.github.io/styleguide/cppguide.html
-* Cppcheck
-..* http://cppcheck.sourceforge.net
-* Git Cheat Sheet
-..* https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf
-* Markdown Cheatsheet
-..* https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-* Makefiles - A tutorial by example
-..* http://mrbook.org/blog/tutorials/make/
+* Google C++ Style Guide https://google.github.io/styleguide/cppguide.html
+* Cppcheck http://cppcheck.sourceforge.net
+* Git Cheat Sheet https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf
+* Markdown Cheatsheet https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+* Makefiles - A tutorial by example http://mrbook.org/blog/tutorials/make/
