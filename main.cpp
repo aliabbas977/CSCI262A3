@@ -15,7 +15,7 @@
  *     traffic statistics text file, and an integer representing the number of
  *     days to be analyzed.
  *
- *     $ Traffic <vehicle types file> <statistics file> <number of days to analyze>
+ *     $ Traffic <vehicle types file> <statistics file> <days to analyze>
  *
  * Limitations:
  *     The program checks for the appropriate command-line arguments but it
@@ -42,18 +42,58 @@
  *     Emergency:1:0.5:60:10:
  */
 
+#include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 #include "traffic.h"
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+    ifstream ifs;
+    string buffer;
+    vector<vehicle_type> vehicles;
+    vector<vehicle_stats> stats;
+    road_stats road;
+    int days;
+
     /* check for required command-line arguments and exit if there aren't enough */
     if (argc < 4){
         cerr << "Not enough arguments specified on the command-line.\n"
-             << "Usage: Traffic <vehicle types file> <statistics file> <number of days to analyze>" << endl;
-        return 1;   // abnormal program termination
+             << "Usage: Traffic <vehicle types file> <statistics file> <days to analyze>" << endl;
+        return 1;           // abnormal program termination
     }
+
+    /* open first file specified on the command-line (Vehicles.txt) and read in data */
+    ifs.open(argv[1]);
+    if (ifs.is_open()){
+        int count; ifs >> count;
+    } else {
+        cerr << "Unable to open file " << argv[1] << endl;
+        return 1;           // abnormal program termination
+    }
+    ifs.close();
+
+    /* open second file specified on the command-line (Stats.txt) and read in data */
+    ifs.open(argv[2]);
+    if (ifs.is_open()){
+        int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
+        road.update(length, limit, spaces);
+        road.print(cout);
+    } else {
+        cerr << "Unable to open file " << argv[2] << endl;
+        return 1;           // abnormal program termination
+    }
+    ifs.close();
+
+    /* check for inconsistencies between the two files read in */
+
+    /* PART TWO GOES HERE */
+
+    /* PART THREE GOES HERE */
+
+    /* PART FOUR GOES HERE */
 
     return 0;
 }

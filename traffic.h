@@ -36,7 +36,9 @@ class vehicle_stats{
 
 class road_stats{
     public:
+        road_stats();
         road_stats(int, int, int);              // Example: road_stats elm_street(5, 60, 20);
+        void update(int, int, int);             // Example: elm_street.update(5, 60, 20);
         void print(std::ostream&);              // Example: elm_street.print(cout);
     private:
         int road_length;
