@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
         string buffer;
         Vehicle_Type temp;
         int count; ifs >> count;
+        cout << "Reading in vehicle types from " << argv[1] << "...\n";
         while (ifs.eof() == false){    // read in data and print info
             getline(ifs, buffer);
             if(buffer.empty() == true)
@@ -91,6 +92,7 @@ int main(int argc, char *argv[])
         cerr << "Unable to open file " << argv[1] << endl;
         return 1;                      // abnormal program termination
     }
+    cout << '\n';
     ifs.close();
 
     // open second file specified on the command-line (usually Stats.txt) and read in data
@@ -100,7 +102,9 @@ int main(int argc, char *argv[])
         Vehicle_Stats temp;
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
         road.update(length, limit, spaces);
-        road.print(cout);
+        cout << "Reading in road statistics from " << argv[2] << "...\n";
+        road.print(cout); cout << '\n';
+        cout << "Reading in vehicle statistics from " << argv[2] << "...\n";
         while (ifs.eof() == false){    // read in data and print info
             getline(ifs, buffer);
             if(buffer.empty() == true)
@@ -117,12 +121,14 @@ int main(int argc, char *argv[])
         cerr << "Unable to open file " << argv[2] << endl;
         return 1;                      // abnormal program termination
     }
+    cout << '\n';
     ifs.close();
 
     // store the number of days to be analyzed
     days = atoi(argv[3]);
 
     // check for inconsistencies between the two files read in
+    cout << "Checking for inconsistencies...\n";
     check_consistency(vehicles, stats, cout);
 
     /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATING AND LOG EVENTS */

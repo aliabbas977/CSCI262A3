@@ -8,15 +8,44 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "traffic.h"
 using namespace std;
 
 /* VEHICLE_TYPE */
 
-// prints vehicle type information
-void Vehicle_Type::print(std::ostream& out)
+// default constructor
+Vehicle_Type::Vehicle_Type()
 {
-    out << "Vehicle Type: " << name << "\t\tRegistration Format: " << registration << "\t\tParking: " << ((parking == true) ? "Yes\n" : "No\n");
+    name = "NULL";
+    parking = false;
+    registration = "";
+    volume_weight = 0;
+    volume_speed = 0;
+}
+
+// constructor
+Vehicle_Type::Vehicle_Type(string type)
+{
+    update(type);
+}
+
+// update values
+void Vehicle_Type::update(string type)
+{
+    istringstream ss(type);
+    string token;
+    getline(ss, token, ':'); name = token;
+    getline(ss, token, ':'); parking = atoi(token.c_str());
+    getline(ss, token, ':'); registration = token;
+    getline(ss, token, ':'); volume_weight = atoi(token.c_str());
+    getline(ss, token, ':'); volume_speed = atoi(token.c_str());
+}
+
+// prints vehicle type information
+void Vehicle_Type::print(ostream& out)
+{
+    out << name << ' ' << registration << ((parking == true) ? " (can park)\n" : "\n");
 }
 
 // returns the name of the vehicle type as a string
@@ -43,10 +72,38 @@ string Vehicle_Type::generate_plate()
 
 /* VEHICLE_STATS */
 
-// prints vehicle statistics
-void Vehicle_Stats::print(std::ostream& out)
+// default constructor
+Vehicle_Stats::Vehicle_Stats()
 {
-    out << "Vehicle Type: " << type << "\t\tNumbers: " << num_mean << " (mean) " << num_sd << " (SD)\t\tSpeed: " << speed_mean << " (mean) " << speed_sd << " (SD)\n";
+    type = "NULL";
+    num_mean = 0;
+    num_sd = 0;
+    speed_mean = 0;
+    speed_sd = 0;
+}
+
+// constructor
+Vehicle_Stats::Vehicle_Stats(string stats)
+{
+    update(stats);
+}
+
+// update values
+void Vehicle_Stats::update(string stats)
+{
+    istringstream ss(stats);
+    string token;
+    getline(ss, token, ':'); type = token;
+    getline(ss, token, ':'); num_mean = atoi(token.c_str());
+    getline(ss, token, ':'); num_sd = atoi(token.c_str());
+    getline(ss, token, ':'); speed_mean = atoi(token.c_str());
+    getline(ss, token, ':'); speed_sd = atoi(token.c_str());
+}
+
+// prints vehicle statistics
+void Vehicle_Stats::print(ostream& out)
+{
+    out << type << ' ' << num_mean << "/" << num_sd << ' ' << speed_mean << "/" << speed_sd << '\n';
 }
 
 // returns the type of vehicle as a string
@@ -68,9 +125,7 @@ Road_Stats::Road_Stats()
 // constructor
 Road_Stats::Road_Stats(int length, int limit, int spaces)
 {
-    road_length = length;
-    speed_limit = limit;
-    parking_spaces = spaces;
+    update(length, limit, spaces);
 }
 
 // update values
@@ -82,7 +137,7 @@ void Road_Stats::update(int length, int limit, int spaces)
 }
 
 // prints road statistics
-void Road_Stats::print(std::ostream& out)
+void Road_Stats::print(ostream& out)
 {
-    out << "Road Length: " << road_length << "\t\tSpeed Limit: " << speed_limit << "\t\tParking Spaces Free: " << parking_spaces << '\n';
+    out << road_length << "km " << speed_limit << "km/h " << parking_spaces << " spaces\n";
 }
