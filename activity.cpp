@@ -3,3 +3,5 @@
  *
  * Definitions for activity engine.
  */
+
+#include "traffic.h"
