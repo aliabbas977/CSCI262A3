@@ -77,6 +77,8 @@ int main(int argc, char *argv[])
         int count; ifs >> count;
         while (ifs.eof() == false){    // read in data and print info
             getline(ifs, buffer);
+            if(buffer.empty() == true)
+                continue;
             temp.update(buffer);
             temp.print(cout);
             vehicles.push_back(temp);
@@ -101,6 +103,8 @@ int main(int argc, char *argv[])
         road.print(cout);
         while (ifs.eof() == false){    // read in data and print info
             getline(ifs, buffer);
+            if(buffer.empty() == true)
+                continue;
             temp.update(buffer);
             temp.print(cout);
             stats.push_back(temp);
