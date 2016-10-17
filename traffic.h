@@ -10,9 +10,9 @@
 #include <iostream>
 #include <string>
 
-class vehicle_type{
+class Vehicle_Type{
     public:
-        vehicle_type(std::string);              // Example: vehicle_type bus("Bus:0:LLLDDD:3:2:");
+        Vehicle_Type(std::string);              // Example: Vehicle_Type bus("Bus:0:LLLDDD:3:2:");
         void print(std::ostream&);              // Example: bus.print(cout);
         std::string get_name();                 // Example: string name = bus.getname();
         std::string generate_plate();           // Example: string license = bus.generate_plate();
@@ -24,23 +24,23 @@ class vehicle_type{
         int volume_speed;
 };
 
-class vehicle_stats{
+class Vehicle_Stats{
     public:
-        vehicle_stats(std::string);             // Example: vehicle_stats bus_stats("Bus:3:1:40:10:");
+        Vehicle_Stats(std::string);             // Example: Vehicle_Stats bus_stats("Bus:3:1:40:10:");
         void print(std::ostream&);              // Example: bus_stats.print(cout);
         std::string get_type();                 // Example: string type = bus_stats.gettype();
     private:
         std::string type;
         int num_mean;
-        int num_std;
+        int num_sd;
         int speed_mean;
-        int speed_std;
+        int speed_sd;
 };
 
-class road_stats{
+class Road_Stats{
     public:
-        road_stats();
-        road_stats(int, int, int);              // Example: road_stats elm_street(5, 60, 20);
+        Road_Stats();
+        Road_Stats(int, int, int);              // Example: Road_Stats elm_street(5, 60, 20);
         void update(int, int, int);             // Example: elm_street.update(6, 50, 10);
         void print(std::ostream&);              // Example: elm_street.print(cout);
     private:

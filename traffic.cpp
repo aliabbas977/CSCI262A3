@@ -11,15 +11,23 @@
 #include "traffic.h"
 using namespace std;
 
+/* VEHICLE_TYPE */
+
+// prints vehicle type information
+void Vehicle_Type::print(std::ostream& out)
+{
+    out << "Vehicle Type: " << name << "\t\tRegistration Format: " << registration << "\t\tParking: " << ((parking == true) ? "Yes\n" : "No\n");
+}
+
 // returns the name of the vehicle type as a string
-string vehicle_type::get_name()
+string Vehicle_Type::get_name()
 {
     return name;
 }
 
 // generates a registration plate string according to the registration format
 // used for activity engine
-string vehicle_type::generate_plate()
+string Vehicle_Type::generate_plate()
 {
     string plate;
     srand((unsigned)time(0));           // seed random number generator
@@ -33,14 +41,24 @@ string vehicle_type::generate_plate()
     return plate;
 }
 
+/* VEHICLE_STATS */
+
+// prints vehicle statistics
+void Vehicle_Stats::print(std::ostream& out)
+{
+    out << "Vehicle Type: " << type << "\t\tNumbers: " << num_mean << " (mean) " << num_sd << " (SD)\t\tSpeed: " << speed_mean << " (mean) " << speed_sd << " (SD)\n";
+}
+
 // returns the type of vehicle as a string
-string vehicle_stats::get_type()
+string Vehicle_Stats::get_type()
 {
     return type;
 }
 
+/* ROAD_STATS */
+
 // default constructor
-road_stats::road_stats()
+Road_Stats::Road_Stats()
 {
     road_length = 0;
     speed_limit = 0;
@@ -48,7 +66,7 @@ road_stats::road_stats()
 }
 
 // constructor
-road_stats::road_stats(int length, int limit, int spaces)
+Road_Stats::Road_Stats(int length, int limit, int spaces)
 {
     road_length = length;
     speed_limit = limit;
@@ -56,7 +74,7 @@ road_stats::road_stats(int length, int limit, int spaces)
 }
 
 // update values
-void road_stats::update(int length, int limit, int spaces)
+void Road_Stats::update(int length, int limit, int spaces)
 {
     road_length = length;
     speed_limit = limit;
@@ -64,7 +82,7 @@ void road_stats::update(int length, int limit, int spaces)
 }
 
 // prints road statistics
-void road_stats::print(std::ostream& out)
+void Road_Stats::print(std::ostream& out)
 {
     out << "Road Length: " << road_length << "\t\tSpeed Limit: " << speed_limit << "\t\tParking Spaces Free: " << parking_spaces << '\n';
 }

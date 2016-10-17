@@ -42,6 +42,7 @@
  *     Emergency:1:0.5:60:10:
  */
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -49,15 +50,14 @@
 #include "traffic.h"
 using namespace std;
 
-bool check_consistency(vector<vehicle_type>&, vector<vehicle_stats>&, ostream&);
+bool check_consistency(vector<Vehicle_Type>&, vector<Vehicle_Stats>&, ostream&);
 
 int main(int argc, char *argv[])
 {
     ifstream ifs;
-    string buffer;
-    vector<vehicle_type> vehicles;
-    vector<vehicle_stats> stats;
-    road_stats road;
+    vector<Vehicle_Type> vehicles;
+    vector<Vehicle_Stats> stats;
+    Road_Stats road;
     int days;
 
     /* PART ONE: INITIAL INPUT */
@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
     // open first file specified on the command-line (usually Vehicles.txt) and read in data
     ifs.open(argv[1]);
     if (ifs.is_open()){
+        string buffer;
         int count; ifs >> count;
         // code
         if (vehicles.empty()){      // check that we actually read in some data
@@ -87,6 +88,7 @@ int main(int argc, char *argv[])
     // open second file specified on the command-line (usually Stats.txt) and read in data
     ifs.open(argv[2]);
     if (ifs.is_open()){
+        string buffer;
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
         road.update(length, limit, spaces);
         road.print(cout);
@@ -101,6 +103,9 @@ int main(int argc, char *argv[])
     }
     ifs.close();
 
+    // store the number of days to be analyzed
+    days = atoi(argv[3]);
+
     // check for inconsistencies between the two files read in
     check_consistency(vehicles, stats, cout);
 
@@ -108,15 +113,15 @@ int main(int argc, char *argv[])
 
     /* PART THREE: CALLING THE ANALYSIS ENGINE TO PRODUCE STATISTICS */
 
-    /* PART FOUR GOES HERE: CALLING THE ALERT ENGINE TO CHECK CONSISTENCY BETWEEN "LIVE DATA" AND BASE LINE STATISTICS */
+    /* PART FOUR: CALLING THE ALERT ENGINE TO CHECK CONSISTENCY BETWEEN "LIVE DATA" AND BASE LINE STATISTICS */
 
     return 0;
 }
 
-// checks for consistency between a vector of vehicle_types and a vector of vehicle_stats
+// checks for consistency between a vector of Vehicle_Types and a vector of Vehicle_Stats
 //     if inconsistencies are found, it outputs details and returns false
 //     if no inconsistencies are found, it outputs details and returns true
-bool check_consistency(vector<vehicle_type>& vehicles, vector<vehicle_stats>& stats, ostream& out)
+bool check_consistency(vector<Vehicle_Type>& vehicles, vector<Vehicle_Stats>& stats, ostream& out)
 {
     bool consistent = true;
     int vehicle_count = vehicles.size();
@@ -131,12 +136,34 @@ bool check_consistency(vector<vehicle_type>& vehicles, vector<vehicle_stats>& st
 
     // check that all vehicle types were monitored
     for (int i = 0; i < vehicle_count; i++){
-        // stuff
+        string test = vehicles[i].get_name();
+        bool found = false;
+        for (int j = 0; j < stats_count; j++){
+            if (test == stats[j].get_type()){
+                found = true;
+                break;
+            }
+        }
+        if (found == false){
+            out << "Vehicle type " << test << " not found in stats.\n";
+            consistent = false;
+        }
     }
 
     // check that everything monitored is a vehicle type we are trying to monitor
-    for (int i = 0; i < vehicle_count; i++){
-        // stuff
+    for (int i = 0; i < stats_count; i++){
+        string test = stats[i].get_type();
+        bool found = false;
+        for (int j = 0; j < vehicle_count; j++){
+            if (test == vehicles[j].get_name()){
+                found = true;
+                break;
+            }
+        }
+        if (found == false){
+            out << "Vehicle statistics for " << test << " exist but it is not a monitored type.\n";
+            consistent = false;
+        }
     }
 
     /* ADD MORE CHECKS HERE IF YOU THINK OF THEM */
