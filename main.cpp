@@ -60,13 +60,13 @@ int main(int argc, char *argv[])
     Road_Stats road;
     int days;
 
-    /* PART ONE: INITIAL INPUT */
+    /* PART ONE: INITIAL INPUT (BASELINE) */
 
     // check for required command-line arguments and exit if there aren't enough
     if (argc < 4){
         cerr << "Not enough arguments specified on the command-line.\n"
              << "Usage: Traffic <vehicle types file> <statistics file> <days to analyze>" << endl;
-        return 1;                      // abnormal program termination
+        return 1;
     }
 
     // open first file specified on the command-line (usually Vehicles.txt) and read in data
@@ -76,21 +76,23 @@ int main(int argc, char *argv[])
         Vehicle_Type temp;
         int count; ifs >> count;
         cout << "Reading in vehicle types from " << argv[1] << "...\n";
-        while (ifs.eof() == false){    // read in data and print info
+        while (ifs.eof() == false){
             getline(ifs, buffer);
-            if(buffer.empty() == true)
+            if(buffer.empty() == true)    // fix for banshee text format
                 continue;
             temp.update(buffer);
             temp.print(cout);
             vehicles.push_back(temp);
         }
-        if (vehicles.empty()){         // check that we actually read in some data
-            cout << "No vehicle types found." << endl;
-            return 1;                  // abnormal program termination
+        if (vehicles.empty()){            // check that we actually read in some data and exit if we didn't
+            cerr << "No vehicle types found." << endl;
+            return 1;
         }
+        if (vehicles.size() != count)     // check for internal consistency
+            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << vehicles.size() << ")\n";
     } else {
         cerr << "Unable to open file " << argv[1] << endl;
-        return 1;                      // abnormal program termination
+        return 1;
     }
     cout << '\n';
     ifs.close();
@@ -105,21 +107,23 @@ int main(int argc, char *argv[])
         cout << "Reading in road statistics from " << argv[2] << "...\n";
         road.print(cout); cout << '\n';
         cout << "Reading in vehicle statistics from " << argv[2] << "...\n";
-        while (ifs.eof() == false){    // read in data and print info
+        while (ifs.eof() == false){
             getline(ifs, buffer);
-            if(buffer.empty() == true)
+            if(buffer.empty() == true)    // fix for banshee text format
                 continue;
             temp.update(buffer);
             temp.print(cout);
             stats.push_back(temp);
         }
-        if (stats.empty()){            // check that we actually read in some data
-            cout << "No vehicle statistics found." << endl;
-            return 1;                  // abnormal program termination
+        if (stats.empty()){               // check that we actually read in some data and exit if we didn't
+            cerr << "No vehicle statistics found." << endl;
+            return 1;
         }
+        if (stats.size() != count)        // check for internal consistency
+            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << stats.size() << ")\n";
     } else {
         cerr << "Unable to open file " << argv[2] << endl;
-        return 1;                      // abnormal program termination
+        return 1;
     }
     cout << '\n';
     ifs.close();
@@ -131,11 +135,11 @@ int main(int argc, char *argv[])
     cout << "Checking for inconsistencies...\n";
     check_consistency(vehicles, stats, cout);
 
-    /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATING AND LOG EVENTS */
+    /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATE AND LOG EVENTS (BASELINE) */
 
-    /* PART THREE: CALLING THE ANALYSIS ENGINE TO PRODUCE STATISTICS */
+    /* PART THREE: CALLING THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
 
-    /* PART FOUR: CALLING THE ALERT ENGINE TO CHECK CONSISTENCY BETWEEN "LIVE DATA" AND BASE LINE STATISTICS */
+    /* PART FOUR: PROMPT USER FOR INPUT, CALL ACTIVITY ENGINE AND ANALYSIS ENGINE ON THAT INPUT (LIVE DATA), CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
 
     return 0;
 }
