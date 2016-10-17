@@ -66,22 +66,28 @@ int main(int argc, char *argv[])
     if (argc < 4){
         cerr << "Not enough arguments specified on the command-line.\n"
              << "Usage: Traffic <vehicle types file> <statistics file> <days to analyze>" << endl;
-        return 1;                   // abnormal program termination
+        return 1;                      // abnormal program termination
     }
 
     // open first file specified on the command-line (usually Vehicles.txt) and read in data
     ifs.open(argv[1]);
     if (ifs.is_open()){
         string buffer;
+        Vehicle_Type temp;
         int count; ifs >> count;
-        // code
-        if (vehicles.empty()){      // check that we actually read in some data
+        while (ifs.eof() == false){    // read in data and print info
+            getline(ifs, buffer);
+            temp.update(buffer);
+            temp.print(cout);
+            vehicles.push_back(temp);
+        }
+        if (vehicles.empty()){         // check that we actually read in some data
             cout << "No vehicle types found." << endl;
-            return 1;               // abnormal program termination
+            return 1;                  // abnormal program termination
         }
     } else {
         cerr << "Unable to open file " << argv[1] << endl;
-        return 1;                   // abnormal program termination
+        return 1;                      // abnormal program termination
     }
     ifs.close();
 
@@ -89,17 +95,23 @@ int main(int argc, char *argv[])
     ifs.open(argv[2]);
     if (ifs.is_open()){
         string buffer;
+        Vehicle_Stats temp;
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
         road.update(length, limit, spaces);
         road.print(cout);
-        // code
-        if (stats.empty()){         // check that we actually read in some data
+        while (ifs.eof() == false){    // read in data and print info
+            getline(ifs, buffer);
+            temp.update(buffer);
+            temp.print(cout);
+            stats.push_back(temp);
+        }
+        if (stats.empty()){            // check that we actually read in some data
             cout << "No vehicle statistics found." << endl;
-            return 1;               // abnormal program termination
+            return 1;                  // abnormal program termination
         }
     } else {
         cerr << "Unable to open file " << argv[2] << endl;
-        return 1;                   // abnormal program termination
+        return 1;                      // abnormal program termination
     }
     ifs.close();
 
