@@ -5,10 +5,15 @@
 Code stuff:
 
 >traffic.h    : class declarations
+
 >traffic.cpp  : initial input and the driver code (i.e. the actual program stuff)
+
 >activity.cpp : activity engine and log generator stuff
+
 >analysis.cpp : analysis engine stuff
+
 >alert.cpp    : alert engine stuff
+
 >makefile     : obviously for make (to compile on banshee)
 
 Other:
@@ -32,12 +37,12 @@ Please use cerr for error messages and cout for standard output.
 ## Useful References
 
 * Google C++ Style Guide
-...https://google.github.io/styleguide/cppguide.html
+..* https://google.github.io/styleguide/cppguide.html
 * Cppcheck
-...http://cppcheck.sourceforge.net
+..* http://cppcheck.sourceforge.net
 * Git Cheat Sheet
-...https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf
+..* https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf
 * Markdown Cheatsheet
-...https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+..* https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * Makefiles - A tutorial by example
-...http://mrbook.org/blog/tutorials/make/
+..* http://mrbook.org/blog/tutorials/make/
