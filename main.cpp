@@ -55,15 +55,16 @@
 #include "traffic.h"
 using namespace std;
 
-bool check_consistency(const vector<Vehicle_Type>&, const vector<Vehicle_Stats>&, ostream&);
+bool load_vehicles(const char*, vector<Vehicle_Type>&);
+bool load_stats(const char*, vector<Vehicle_Stats>&, Road_Stats&);
+bool check_consistency(const vector<Vehicle_Type>&, const vector<Vehicle_Stats>&);
 
 int main(int argc, char *argv[])
 {
-    ifstream ifs;
     vector<Vehicle_Type> vehicles;
-    vector<Vehicle_Stats> base_stats;
-    Road_Stats base_road;
-    int days;
+    vector<Vehicle_Stats> base_stats, live_stats;
+    Road_Stats base_road, live_road;
+    int base_days, live_days;
 
     /* PART ONE: INITIAL INPUT (BASELINE) */
 
@@ -75,12 +76,55 @@ int main(int argc, char *argv[])
     }
 
     // open first file specified on the command-line (usually Vehicles.txt) and read in data
-    ifs.open(argv[1]);
+    // exit if file cannot be opened or is empty
+    if (load_vehicles(argv[1], vehicles) == false)
+        return 1;
+
+    // open second file specified on the command-line (usually Stats.txt) and read in data
+    // exit if file cannot be opened or is empty
+    if (load_stats(argv[2], base_stats, base_road) == false)
+        return 1;
+
+    // store the number of days to be analyzed and enforce it to be between 1 and 500 days
+    base_days = atoi(argv[3]);
+    if (base_days < 1){
+        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
+             << base_days << " days specified on command-line.\n"
+             << "Analyzing 1 day." << endl;
+        base_days = 1;
+    } else if (base_days > 500){
+        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
+             << base_days << " days specified on command-line.\n"
+             << "Analyzing 500 days." << endl;
+        base_days = 500;
+    }
+
+    // check for inconsistencies between the data from the two files read in
+    cout << "Checking for inconsistencies...\n";
+    check_consistency(vehicles, base_stats);
+
+    /* PART TWO: CALL THE ACTIVITY ENGINE TO GENERATE AND LOG EVENTS (BASELINE) */
+    generate_activity(vehicles, base_stats, base_road, base_days, 'true');
+
+    /* PART THREE: CALL THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
+
+    /* PART FOUR: CALL ACTIVITY ENGINE AND ANALYSIS ENGINE INPUT (LIVE DATA) AND CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
+    //PROMPT USER FOR INPUT
+
+    return 0;
+}
+
+// loads a specified vehicles type file into a vector of Vehicle_Type
+//     if unable to open file, returns false
+bool load_vehicles(const char* file, vector<Vehicle_Type>& vehicles)
+{
+    ifstream ifs;
+    ifs.open(file);
     if (ifs.is_open()){
         string buffer;
         Vehicle_Type temp;
         int count; ifs >> count;
-        cout << "Reading in vehicle types from " << argv[1] << "...\n";
+        cout << "Reading in vehicle types from " << file << "...\n";
         while (ifs.eof() == false){
             getline(ifs, buffer);
             if(buffer.empty() == true)    // fix for banshee text format
@@ -94,76 +138,59 @@ int main(int argc, char *argv[])
             return 1;
         }
         if (vehicles.size() != count)     // check for internal consistency
-            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << vehicles.size() << ")\n";
+            cerr << file << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << vehicles.size() << ")\n";
     } else {
-        cerr << "Unable to open file " << argv[1] << endl;
+        cerr << "Unable to open file " << file << endl;
         return 1;
     }
     cout << '\n';
     ifs.close();
 
-    // open second file specified on the command-line (usually Stats.txt) and read in data
-    ifs.open(argv[2]);
+    return true;
+}
+
+// loads a specified traffic statistics file into a vector of Vehicle_Stats and a Roads_Stats
+//     if unable to open file, returns false
+bool load_stats(const char* file, vector<Vehicle_Stats>& stats, Road_Stats& road)
+{
+    ifstream ifs;
+    ifs.open(file);
     if (ifs.is_open()){
         string buffer;
         Vehicle_Stats temp;
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
-        base_road.update(length, limit, spaces);
-        cout << "Reading in road statistics from " << argv[2] << "...\n";
-        base_road.print(cout); cout << '\n';
-        cout << "Reading in vehicle statistics from " << argv[2] << "...\n";
+        road.update(length, limit, spaces);
+        cout << "Reading in road statistics from " << file << "...\n";
+        road.print(cout); cout << '\n';
+        cout << "Reading in vehicle statistics from " << file << "...\n";
         while (ifs.eof() == false){
             getline(ifs, buffer);
             if(buffer.empty() == true)    // fix for banshee text format
                 continue;
             temp.update(buffer);
             temp.print(cout);
-            base_stats.push_back(temp);
+            stats.push_back(temp);
         }
-        if (base_stats.empty()){               // check that we actually read in some data and exit if we didn't
+        if (stats.empty()){               // check that we actually read in some data and exit if we didn't
             cerr << "No vehicle statistics found." << endl;
-            return 1;
+            return false;
         }
-        if (base_stats.size() != count)        // check for internal consistency
-            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << base_stats.size() << ")\n";
+        if (stats.size() != count)        // check for internal consistency
+            cerr << file << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << stats.size() << ")\n";
     } else {
-        cerr << "Unable to open file " << argv[2] << endl;
-        return 1;
+        cerr << "Unable to open file " << file << endl;
+        return false;
     }
     cout << '\n';
     ifs.close();
 
-    // store the number of days to be analyzed and enforce it to be between 1 and 500 days
-    days = atoi(argv[3]);
-    if (days < 1){
-        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
-             << days << " days specified on command-line.\n"
-             << "Analyzing 1 day." << endl;
-        days = 1;
-    } else if (days > 500){
-        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
-             << days << " days specified on command-line.\n"
-             << "Analyzing 500 days." << endl;
-        days = 500;
-    }
-
-    // check for inconsistencies between the two files read in
-    cout << "Checking for inconsistencies...\n";
-    check_consistency(vehicles, base_stats, cout);
-
-    /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATE AND LOG EVENTS (BASELINE) */
-
-    /* PART THREE: CALLING THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
-
-    /* PART FOUR: PROMPT USER FOR INPUT, CALL ACTIVITY ENGINE AND ANALYSIS ENGINE ON THAT INPUT (LIVE DATA), CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
-
-    return 0;
+    return true;
 }
 
 // checks for consistency between a vector of Vehicle_Types and a vector of Vehicle_Stats
 //     if inconsistencies are found, it outputs details and returns false
 //     if no inconsistencies are found, it outputs details and returns true
-bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicle_Stats>& stats, ostream& out)
+bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicle_Stats>& stats)
 {
     bool consistent = true;
     int vehicle_count = vehicles.size();
@@ -171,8 +198,8 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
 
     // check if the same amount of vehicle types as there are vehicle stats
     if (vehicle_count != stats_count){
-        out << "Count of vehicle types and count of vehicle stats differ.\n"
-            << "Types Counted: " << vehicle_count << "\t\tStats Counted: " << stats_count << '\n';
+        cerr << "Count of vehicle types and count of vehicle stats differ.\n"
+             << "Types Counted: " << vehicle_count << "\nStats Counted: " << stats_count << '\n';
         consistent = false;
     }
 
@@ -187,7 +214,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
             }
         }
         if (found == false){
-            out << "Vehicle type " << test << " not found in stats.\n";
+            cerr << "Vehicle type " << test << " not found in stats.\n";
             consistent = false;
         }
     }
@@ -203,7 +230,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
             }
         }
         if (found == false){
-            out << "Vehicle statistics for " << test << " exist but it is not a monitored type.\n";
+            cerr << "Vehicle statistics for " << test << " exist but it is not a monitored type.\n";
             consistent = false;
         }
     }
@@ -211,7 +238,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
     /* ADD MORE CHECKS HERE IF YOU THINK OF THEM */
 
     if (consistent == true)
-        out << "No inconsistencies found.\n";
+        cout << "No inconsistencies found.\n";
 
     return consistent;
 }
