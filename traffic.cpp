@@ -17,11 +17,11 @@ using namespace std;
 // default constructor
 Vehicle_Type::Vehicle_Type()
 {
-    name = "NULL";
+    type = "NULL";
     parking = false;
     registration = "";
-    volume_weight = 0;
-    volume_speed = 0;
+    num_weight = 0;
+    speed_weight = 0;
 }
 
 // constructor
@@ -35,27 +35,27 @@ void Vehicle_Type::update(string type)
 {
     istringstream ss(type);
     string token;
-    getline(ss, token, ':'); name = token;
+    getline(ss, token, ':'); type = token;
     getline(ss, token, ':'); parking = atoi(token.c_str());
     getline(ss, token, ':'); registration = token;
-    getline(ss, token, ':'); volume_weight = atoi(token.c_str());
-    getline(ss, token, ':'); volume_speed = atoi(token.c_str());
+    getline(ss, token, ':'); num_weight = atoi(token.c_str());
+    getline(ss, token, ':'); speed_weight = atoi(token.c_str());
 }
 
 // prints vehicle type information
 void Vehicle_Type::print(ostream& out) const
 {
-    out << name << ' ' << registration << ((parking == true) ? " (parking)\n" : "\n");
+    out << type << ' ' << registration << ((parking == true) ? " (parking)\n" : "\n");
 }
 
-// returns the name of the vehicle type as a string
-string Vehicle_Type::get_name() const
+// returns the type of the vehicle type as a string
+string Vehicle_Type::get_type() const
 {
-    return name;
+    return type;
 }
 
 // generates a registration plate string according to the registration format
-// used for activity engine
+// might be useful for the activity engine, might not be
 string Vehicle_Type::generate_plate() const
 {
     string plate;

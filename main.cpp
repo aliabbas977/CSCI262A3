@@ -238,7 +238,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
 
     // check that all vehicle types were monitored
     for (int i = 0; i < vehicle_count; i++){
-        string test = vehicles[i].get_name();
+        string test = vehicles[i].get_type();
         bool found = false;
         for (int j = 0; j < stats_count; j++){
             if (test == stats[j].get_type()){
@@ -257,7 +257,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
         string test = stats[i].get_type();
         bool found = false;
         for (int j = 0; j < vehicle_count; j++){
-            if (test == vehicles[j].get_name()){
+            if (test == vehicles[j].get_type()){
                 found = true;
                 break;
             }

@@ -16,14 +16,14 @@ class Vehicle_Type{
         Vehicle_Type(std::string);              // Example: Vehicle_Type bus("Bus:0:LLLDDD:3:2:");
         void update(std::string);               // Example: bus.update("Bus:0:LLLDDD:3:2:");
         void print(std::ostream&) const;        // Example: bus.print(cout);
-        std::string get_name() const;           // Example: string name = bus.getname();
+        std::string get_type() const;           // Example: string type = bus.get_type();
         std::string generate_plate() const;     // Example: string registration = bus.generate_plate();
     private:
-        std::string name;
+        std::string type;
         bool parking;
         std::string registration;
-        int volume_weight;
-        int volume_speed;
+        int num_weight;
+        int speed_weight;
 };
 
 class Vehicle_Stats{
