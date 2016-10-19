@@ -4,4 +4,12 @@
  * Definitions for analysis engine.
  */
 
+#include <iostream>
+#include <vector>
 #include "analysis.h"
+using namespace std;
+
+bool perform_analysis(const std::vector<Vehicle_Type>& vehicles, const Road_Stats& road, int days, bool baseline)
+{
+    return true;
+}
