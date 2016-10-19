@@ -43,20 +43,20 @@ void Vehicle_Type::update(string type)
 }
 
 // prints vehicle type information
-void Vehicle_Type::print(ostream& out)
+void Vehicle_Type::print(ostream& out) const
 {
-    out << name << ' ' << registration << ((parking == true) ? " (can park)\n" : "\n");
+    out << name << ' ' << registration << ((parking == true) ? " (parking)\n" : "\n");
 }
 
 // returns the name of the vehicle type as a string
-string Vehicle_Type::get_name()
+string Vehicle_Type::get_name() const
 {
     return name;
 }
 
 // generates a registration plate string according to the registration format
 // used for activity engine
-string Vehicle_Type::generate_plate()
+string Vehicle_Type::generate_plate() const
 {
     string plate;
     srand((unsigned)time(0));           // seed random number generator
@@ -101,13 +101,13 @@ void Vehicle_Stats::update(string stats)
 }
 
 // prints vehicle statistics
-void Vehicle_Stats::print(ostream& out)
+void Vehicle_Stats::print(ostream& out) const
 {
     out << type << ' ' << num_mean << "/" << num_sd << ' ' << speed_mean << "/" << speed_sd << '\n';
 }
 
 // returns the type of vehicle as a string
-string Vehicle_Stats::get_type()
+string Vehicle_Stats::get_type() const
 {
     return type;
 }
@@ -137,7 +137,7 @@ void Road_Stats::update(int length, int limit, int spaces)
 }
 
 // prints road statistics
-void Road_Stats::print(ostream& out)
+void Road_Stats::print(ostream& out) const
 {
     out << road_length << "km " << speed_limit << "km/h " << parking_spaces << " spaces\n";
 }

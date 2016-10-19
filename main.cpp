@@ -47,10 +47,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "activity.h"
+#include "alert.h"
+#include "analysis.h"
 #include "traffic.h"
 using namespace std;
 
-bool check_consistency(vector<Vehicle_Type>&, vector<Vehicle_Stats>&, ostream&);
+bool check_consistency(const vector<Vehicle_Type>&, const vector<Vehicle_Stats>&, ostream&);
 
 int main(int argc, char *argv[])
 {
@@ -147,7 +150,7 @@ int main(int argc, char *argv[])
 // checks for consistency between a vector of Vehicle_Types and a vector of Vehicle_Stats
 //     if inconsistencies are found, it outputs details and returns false
 //     if no inconsistencies are found, it outputs details and returns true
-bool check_consistency(vector<Vehicle_Type>& vehicles, vector<Vehicle_Stats>& stats, ostream& out)
+bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicle_Stats>& stats, ostream& out)
 {
     bool consistent = true;
     int vehicle_count = vehicles.size();

@@ -15,9 +15,9 @@ class Vehicle_Type{
         Vehicle_Type();
         Vehicle_Type(std::string);              // Example: Vehicle_Type bus("Bus:0:LLLDDD:3:2:");
         void update(std::string);               // Example: bus.update("Bus:0:LLLDDD:3:2:");
-        void print(std::ostream&);              // Example: bus.print(cout);
-        std::string get_name();                 // Example: string name = bus.getname();
-        std::string generate_plate();           // Example: string registration = bus.generate_plate();
+        void print(std::ostream&) const;        // Example: bus.print(cout);
+        std::string get_name() const;           // Example: string name = bus.getname();
+        std::string generate_plate() const;     // Example: string registration = bus.generate_plate();
     private:
         std::string name;
         bool parking;
@@ -31,8 +31,8 @@ class Vehicle_Stats{
         Vehicle_Stats();
         Vehicle_Stats(std::string);             // Example: Vehicle_Stats bus_stats("Bus:3:1:40:10:");
         void update(std::string);               // Example: bus_stats.update("Bus:3:1:40:10:");
-        void print(std::ostream&);              // Example: bus_stats.print(cout);
-        std::string get_type();                 // Example: string type = bus_stats.gettype();
+        void print(std::ostream&) const;        // Example: bus_stats.print(cout);
+        std::string get_type() const;           // Example: string type = bus_stats.gettype();
     private:
         std::string type;
         int num_mean;
@@ -46,7 +46,7 @@ class Road_Stats{
         Road_Stats();
         Road_Stats(int, int, int);              // Example: Road_Stats elm_street(5, 60, 20);
         void update(int, int, int);             // Example: elm_street.update(5, 60, 20);
-        void print(std::ostream&);              // Example: elm_street.print(cout);
+        void print(std::ostream&) const;        // Example: elm_street.print(cout);
     private:
         int road_length;
         int speed_limit;

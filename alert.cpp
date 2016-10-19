@@ -3,3 +3,5 @@
  *
  * Definitions for alert engine.
  */
+
+#include "alert.h"

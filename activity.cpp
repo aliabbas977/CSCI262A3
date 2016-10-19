@@ -4,4 +4,5 @@
  * Definitions for activity engine.
  */
 
+#include "activity.h"
 #include "traffic.h"
