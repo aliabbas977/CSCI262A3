@@ -7,9 +7,9 @@
 #ifndef ACTIVITY_H
 #define ACTIVITY_H
 
-#include <iostream>
+#include <vector>
 #include "traffic.h"
 
-void generate_activity(const vector<Vehicle_Type>&, const vector<Vehicle_Stats>&, const Road_Stats, std::ostream&, bool base = false);
+bool generate_activity(const std::vector<Vehicle_Type>&, const std::vector<Vehicle_Stats>&, const Road_Stats&, int, bool baseline = false);
 
 #endif /* ACTIVITY_H */
