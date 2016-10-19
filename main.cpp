@@ -55,8 +55,12 @@
 #include "traffic.h"
 using namespace std;
 
+const int MIN_DAYS = 1;
+const int MAX_DAYS = 500;
+
 bool load_vehicles(const char*, vector<Vehicle_Type>&);
 bool load_stats(const char*, vector<Vehicle_Stats>&, Road_Stats&);
+int enforce_days(int);
 bool check_consistency(const vector<Vehicle_Type>&, const vector<Vehicle_Stats>&);
 
 int main(int argc, char *argv[])
@@ -65,6 +69,7 @@ int main(int argc, char *argv[])
     vector<Vehicle_Stats> base_stats, live_stats;
     Road_Stats base_road, live_road;
     int base_days, live_days;
+    string buffer;
 
     /* PART ONE: INITIAL INPUT (BASELINE) */
 
@@ -85,19 +90,9 @@ int main(int argc, char *argv[])
     if (load_stats(argv[2], base_stats, base_road) == false)
         return 1;
 
-    // store the number of days to be analyzed and enforce it to be between 1 and 500 days
+    // store the number of days to be analyzed and enforce it to be between MIN_DAYS and MAX_DAYS
     base_days = atoi(argv[3]);
-    if (base_days < 1){
-        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
-             << base_days << " days specified on command-line.\n"
-             << "Analyzing 1 day." << endl;
-        base_days = 1;
-    } else if (base_days > 500){
-        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
-             << base_days << " days specified on command-line.\n"
-             << "Analyzing 500 days." << endl;
-        base_days = 500;
-    }
+    base_days = enforce_days(base_days);
 
     // check for inconsistencies between the data from the two files read in
     cout << "Checking for inconsistencies...\n";
@@ -109,7 +104,16 @@ int main(int argc, char *argv[])
     /* PART THREE: CALL THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
 
     /* PART FOUR: CALL ACTIVITY ENGINE AND ANALYSIS ENGINE INPUT (LIVE DATA) AND CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
-    //PROMPT USER FOR INPUT
+    while(true){
+        cout << "Please specify a file to analyze or enter 'Q' to quit: ";
+        cin >> buffer;
+        if (buffer == "Q")
+            break;
+        cout << "\nPlease enter the number of days to analyze: ";
+        cin >> live_days;
+        live_days = enforce_days(live_days);
+        cout << endl;
+    };
 
     return 0;
 }
@@ -145,7 +149,6 @@ bool load_vehicles(const char* file, vector<Vehicle_Type>& vehicles)
     }
     cout << '\n';
     ifs.close();
-
     return true;
 }
 
@@ -183,8 +186,24 @@ bool load_stats(const char* file, vector<Vehicle_Stats>& stats, Road_Stats& road
     }
     cout << '\n';
     ifs.close();
-
     return true;
+}
+
+// enforce days to be between MIN_DAYS and MAX_DAYS
+int enforce_days(int days)
+{
+    if (days < MIN_DAYS){
+        cerr << "Warning: This program can only analyze between " << MIN_DAYS << " and " << MAX_DAYS << " days worth of data.\n"
+             << days << " days specified.\n"
+             << "Analyzing " << MIN_DAYS << " day instead." << endl;
+       days = MIN_DAYS;
+    } else if (days > MAX_DAYS){
+        cerr << "Warning: This program can only analyze between " << MIN_DAYS << " and " << MAX_DAYS << " days worth of data.\n"
+             << days << " days specified.\n"
+             << "Analyzing " << MAX_DAYS << " days instead." << endl;
+        days = MAX_DAYS;
+    }
+    return days;
 }
 
 // checks for consistency between a vector of Vehicle_Types and a vector of Vehicle_Stats
