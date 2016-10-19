@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 {
     ifstream ifs;
     vector<Vehicle_Type> vehicles;
-    vector<Vehicle_Stats> stats;
-    Road_Stats road;
+    vector<Vehicle_Stats> base_stats;
+    Road_Stats base_road;
     int days;
 
     /* PART ONE: INITIAL INPUT (BASELINE) */
@@ -108,9 +108,9 @@ int main(int argc, char *argv[])
         string buffer;
         Vehicle_Stats temp;
         int count, length, limit, spaces; ifs >> count >> length >> limit >> spaces;
-        road.update(length, limit, spaces);
+        base_road.update(length, limit, spaces);
         cout << "Reading in road statistics from " << argv[2] << "...\n";
-        road.print(cout); cout << '\n';
+        base_road.print(cout); cout << '\n';
         cout << "Reading in vehicle statistics from " << argv[2] << "...\n";
         while (ifs.eof() == false){
             getline(ifs, buffer);
@@ -118,14 +118,14 @@ int main(int argc, char *argv[])
                 continue;
             temp.update(buffer);
             temp.print(cout);
-            stats.push_back(temp);
+            base_stats.push_back(temp);
         }
-        if (stats.empty()){               // check that we actually read in some data and exit if we didn't
+        if (base_stats.empty()){               // check that we actually read in some data and exit if we didn't
             cerr << "No vehicle statistics found." << endl;
             return 1;
         }
-        if (stats.size() != count)        // check for internal consistency
-            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << stats.size() << ")\n";
+        if (base_stats.size() != count)        // check for internal consistency
+            cerr << argv[1] << ": Mismatch between vehicle type count (" << count << ") and number of vehicle types listed (" << base_stats.size() << ")\n";
     } else {
         cerr << "Unable to open file " << argv[2] << endl;
         return 1;
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 
     // check for inconsistencies between the two files read in
     cout << "Checking for inconsistencies...\n";
-    check_consistency(vehicles, stats, cout);
+    check_consistency(vehicles, base_stats, cout);
 
     /* PART TWO: CALLING THE ACTIVITY ENGINE TO GENERATE AND LOG EVENTS (BASELINE) */
 
