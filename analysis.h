@@ -3,3 +3,8 @@
  *
  * Declarations for analysis engine.
  */
+
+#ifndef ANALYSIS_H
+#define ANALYSIS_H
+
+#endif /* ANALYSIS_H */
