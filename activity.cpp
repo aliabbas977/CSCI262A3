@@ -4,7 +4,6 @@
  * Definitions for activity engine.
  */
 
-#include <fstream>
 #include <iostream>
 #include <vector>
 #include "activity.h"
@@ -19,7 +18,6 @@ using namespace std;
 bool generate_activity(const vector<Vehicle_Type>& vehicles, const vector<Vehicle_Stats>& stats, const Road_Stats& road, int days, bool baseline)
 {
     const int time_blocks = 24 * 60;                      // use 1 minute blocks of time (24 hours * 60 minutes)
-    ofstream ofs;
 
     cout << "Activity generation in progress.\n";
     for(int i = 1; i <= days; i++){
@@ -63,10 +61,9 @@ bool generate_activity(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
          *
          * finally you have to detect obvious problems, and raise an alarm immediately.
          *
-         * don't forget to write up the relevant details in the report. i have already answered one of the questions about the logfile format, but you can add to it if you like.
+         * don't forget to write up the relevant details in the report.md file. i have already answered one of the questions about the logfile format, but you can add to it if you like.
          */
     }
-
     cout << '\n';
 
     return true;

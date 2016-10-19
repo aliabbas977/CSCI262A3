@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
         perform_analysis(vehicles, live_road, live_days);
         // check for consistency between live data and baseline by calling the alert engine
         // output the total number of alerts raised
-        cout << alert_engine(live_days) << " alerts raised.\n";
+        cout << alert_engine(vehicles, live_days) << " alerts raised.\n";
     };
 
     return 0;
