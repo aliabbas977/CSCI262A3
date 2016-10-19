@@ -5,12 +5,13 @@
  */
 
 #include <iostream>
+#include <vector>
 #include "alert.h"
 using namespace std;
 
 // checks for consistency between baseline data and live data
 //     returns a count of alerts raised
-int alert_engine(const std::vector<Vehicle_Type>& vehicles, int days)
+int alert_engine(const vector<Vehicle_Type>& vehicles, int days)
 {
     int alerts_raised = 0;
 
@@ -37,17 +38,21 @@ int alert_engine(const std::vector<Vehicle_Type>& vehicles, int days)
         *     You should output the threshold, and give the anomaly counter for each day as well as stating each
         *     day as okay or flagged as having an alert detected.
         *
-        * Note: when he says "Vehicle volume" he means "vehicle count" (i.e. the number of vehicles of that type that day)
+        * When he says "Vehicle volume" he means "vehicle count" (i.e. the number of vehicles of that type that day)
         *
         * Please note that the weights specified in 'Vehicles.txt' *have already been read in and stored* in the vector<Vehicle_Type> passed into the function as 'vehicles'
         * In other words *you should not open Vehicles.txt to get these values*, you should just add functions/methods to the Vehicle_Type class that return these weights
         * See 'traffic.h' and 'traffic.cpp' for the Vehicle_Type details
         *
-        * You will only need to read in the baseline stat files, and the live data stat files!!!
+        * You should *only* need to read in the baseline stat files, and the live data stat files!!!
         * Check the analysis.h and analysis.cpp files for details on their format and naming
         * The report.md file may also help describe their format and naming
-        *     Baseline:  _day1.stats  _day2.stats
-        *     Live Data:  day1.stats   day2.stats
+        *     Baseline:  base.stats base_daily.stats
+        *     Live Data:  live.stas live_daily.stats
+        * The two _daily.stats files have the format:
+        *     Day:Event 1 Count:Event 2 Count:Event 3 Count:Event 4 Count:Event 5 Count:
+        * The other two stats files have the format:
+        *     Vehicle Type:Number Mean:Number Standard Deviation:Speed Mean:Speed Standard Deviation:
         *
         * When you find a problem and raise an alert, increment alerts_raised (alerts_raised++;)
         *
