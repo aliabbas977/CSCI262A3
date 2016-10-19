@@ -13,15 +13,17 @@
  * Usage:
  *     This program takes three command-line inputs, a vehicle types text file, a
  *     traffic statistics text file, and an integer representing the number of
- *     days to be analyzed.
+ *     days to be analyzed. All command-line arguments past the third one are
+ *     ignored.
  *
  *     $ Traffic <vehicle types file> <statistics file> <days to analyze>
  *
  * Limitations:
  *     The program checks for the appropriate command-line arguments but it
- *     otherwise assumes that the invocation is correct and assumes that all the
- *     text files specified on the command-line are correctly formatted. All
- *     command-line arguments past the third are ignored.
+ *     otherwise assumes that the the text files specified on the command-line
+ *     are correctly formatted.
+ *     Limits usage to between 1 and 500 days to prevent resource exhaustion
+ *     and adjusts input below or above those values accordingly.
  *
  * Expected Input Format (vehicle types file):
  *     6
@@ -131,8 +133,19 @@ int main(int argc, char *argv[])
     cout << '\n';
     ifs.close();
 
-    // store the number of days to be analyzed
+    // store the number of days to be analyzed and enforce it to be between 1 and 500 days
     days = atoi(argv[3]);
+    if (days < 1){
+        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
+             << days << " days specified on command-line.\n"
+             << "Analyzing 1 day." << endl;
+        days = 1;
+    } else if (days > 500){
+        cerr << "Warning: This program can only analyze between 1 and 500 days worth of data.\n"
+             << days << " days specified on command-line.\n"
+             << "Analyzing 500 days." << endl;
+        days = 500;
+    }
 
     // check for inconsistencies between the two files read in
     cout << "Checking for inconsistencies...\n";
