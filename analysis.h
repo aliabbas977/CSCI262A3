@@ -10,6 +10,6 @@
 #include <vector>
 #include "traffic.h"
 
-bool perform_analysis(const std::vector<Vehicle_Type>&, const Road_Stats&, int, bool baseline = false);
+bool perform_analysis(const std::vector<Vehicle_Type>&, int days, bool baseline = false);
 
 #endif /* ANALYSIS_H */
