@@ -1,6 +1,7 @@
 # Input files and logs
 *.txt
-*day*
+*.log
+*.stats
 
 # Compiled Object files
 *.o
