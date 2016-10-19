@@ -7,8 +7,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 #include "traffic.h"
 using namespace std;
 
@@ -25,27 +25,27 @@ Vehicle_Type::Vehicle_Type()
 }
 
 // constructor
-Vehicle_Type::Vehicle_Type(string type)
+Vehicle_Type::Vehicle_Type(string vehicle_type)
 {
-    update(type);
+    update(vehicle_type);
 }
 
 // update values
-void Vehicle_Type::update(string type)
+void Vehicle_Type::update(string vehicle_type)
 {
-    istringstream ss(type);
+    istringstream iss(vehicle_type);
     string token;
-    getline(ss, token, ':'); type = token;
-    getline(ss, token, ':'); parking = atoi(token.c_str());
-    getline(ss, token, ':'); registration = token;
-    getline(ss, token, ':'); num_weight = atoi(token.c_str());
-    getline(ss, token, ':'); speed_weight = atoi(token.c_str());
+    getline(iss, token, ':'); type = token;
+    getline(iss, token, ':'); parking = atoi(token.c_str());
+    getline(iss, token, ':'); registration = token;
+    getline(iss, token, ':'); num_weight = atoi(token.c_str());
+    getline(iss, token, ':'); speed_weight = atoi(token.c_str());
 }
 
 // prints vehicle type information
 void Vehicle_Type::print(ostream& out) const
 {
-    out << type << ' ' << registration << ((parking == true) ? " (parking)\n" : "\n");
+    out << type << ' ' << registration << ' ' << num_weight << ' ' << speed_weight << ((parking == true) ? " (parking)\n" : "\n");
 }
 
 // returns the type of the vehicle type as a string
@@ -91,13 +91,13 @@ Vehicle_Stats::Vehicle_Stats(string stats)
 // update values
 void Vehicle_Stats::update(string stats)
 {
-    istringstream ss(stats);
+    istringstream iss(stats);
     string token;
-    getline(ss, token, ':'); type = token;
-    getline(ss, token, ':'); num_mean = atoi(token.c_str());
-    getline(ss, token, ':'); num_sd = atoi(token.c_str());
-    getline(ss, token, ':'); speed_mean = atoi(token.c_str());
-    getline(ss, token, ':'); speed_sd = atoi(token.c_str());
+    getline(iss, token, ':'); type = token;
+    getline(iss, token, ':'); num_mean = atoi(token.c_str());
+    getline(iss, token, ':'); num_sd = atoi(token.c_str());
+    getline(iss, token, ':'); speed_mean = atoi(token.c_str());
+    getline(iss, token, ':'); speed_sd = atoi(token.c_str());
 }
 
 // prints vehicle statistics

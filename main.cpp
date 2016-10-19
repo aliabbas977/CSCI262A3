@@ -22,7 +22,7 @@
  *     The program checks for the appropriate command-line arguments but it
  *     otherwise assumes that the the text files specified on the command-line
  *     are correctly formatted.
- *     Limits usage to between 1 and 500 days to prevent resource exhaustion
+ *     Limits usage to between 1 and 100 days to prevent resource exhaustion
  *     and adjusts input below or above those values accordingly.
  *
  * Expected Input Format (vehicle types file):
@@ -56,7 +56,7 @@
 using namespace std;
 
 const int MIN_DAYS = 1;
-const int MAX_DAYS = 500;
+const int MAX_DAYS = 100;       // if you change this you need to change it in analysis.cpp too
 
 bool load_vehicles(const char*, vector<Vehicle_Type>&);
 bool load_stats(const char*, vector<Vehicle_Stats>&, Road_Stats&);
@@ -102,13 +102,13 @@ int main(int argc, char *argv[])
     generate_activity(vehicles, base_stats, base_road, base_days, 'true');
 
     /* PART THREE: CALL THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
-    perform_analysis(vehicles, base_road, base_days, 'true');
+    perform_analysis(vehicles, base_days, 'true');
 
     /* PART FOUR: PROMPT USER, CALL ACTIVITY ENGINE AND ANALYSIS ENGINE TO GENERATE LIVE DATA, THEN CALL ALERT ENGINE TO CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
     while(true){
-        cout << "Please specify a file to analyze or enter 'Q' to quit: ";
+        cout << "Please specify a file to analyze or enter 'q' to quit: ";
         cin >> buffer;
-        if (buffer == "Q")
+        if (buffer == "q")
             break;
         cout << '\n';
         // try to open the specified live stats file and read in data
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
         // generate live data and generate log files
         generate_activity(vehicles, live_stats, live_road, live_days);
         // analyze live data and generate stat files
-        perform_analysis(vehicles, live_road, live_days);
+        perform_analysis(vehicles, live_days);
         // check for consistency between live data and baseline by calling the alert engine
         // output the total number of alerts raised
         cout << alert_engine(vehicles, live_days) << " alerts raised.\n";
@@ -148,8 +148,8 @@ bool load_vehicles(const char* file, vector<Vehicle_Type>& vehicles)
             if(buffer.empty() == true)    // fix for banshee text format
                 continue;
             temp.update(buffer);
-            temp.print(cout);
             vehicles.push_back(temp);
+            vehicles.back().print(cout);
         }
         if (vehicles.empty()){            // check that we actually read in some data and exit if we didn't
             cerr << "No vehicle types found." << endl;
@@ -185,8 +185,8 @@ bool load_stats(const char* file, vector<Vehicle_Stats>& stats, Road_Stats& road
             if(buffer.empty() == true)    // fix for banshee text format
                 continue;
             temp.update(buffer);
-            temp.print(cout);
             stats.push_back(temp);
+            stats.back().print(cout);
         }
         if (stats.empty()){               // check that we actually read in some data and exit if we didn't
             cerr << "No vehicle statistics found." << endl;
@@ -263,7 +263,7 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
             }
         }
         if (found == false){
-            cerr << "Vehicle statistics for " << test << " exist but it is not a monitored type.\n";
+            cerr << "Vehicle statistics for " << test << " exists but it is not a monitored type.\n";
             consistent = false;
         }
     }
