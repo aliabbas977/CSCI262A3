@@ -32,7 +32,11 @@ Place answer here.
 
 **2. The name and format of the log file, with justification for the format. You will need to be able to read the log entries for subsequent parts of the program. The log file needs to be human readable.**
 
-Place answer here.
+We decided to have a separate log file for each individual day, and named the log files accordingly: day 1 is named day1.log, day 2 is named day2.log, etc.
+
+We also decided to keep separate log files for the baseline statistics, and the live statistics. We implemented this by optionally passing in a token parameter to the activity engine that specified that the logs generated were to be baseline logs (we could have simply checked if the baseline log file existed and assumed the logs were baseline if they did not, however performing this check could cause problems across different platforms, so we decided on a simpler way). If the token parameter was there to indicate the generation log files were to be base log files, the filenames were prefixed with '_' to identify them as such: day 1 baseline is named _day1.log, day 2 baseline is named _day2.log, etc.
+
+We decided to use a similar format to the vehicle types file and the statistics file for consistency, that is we decided to have each event on it's own line, with relevant data postfixed by a ':'. This not only kept things consistent, but also kept the log files concise and human readable. Types of events were indicated by the associated number outlined in the assignment specification (e.g. '1' for vehicle arrival), time and vehicle type were also logged, along with relevant data.
 
 **3. Any alarms that may be raised during the activity, so an immediate detection of a problem.**
 
@@ -55,3 +59,5 @@ Place answer here.
 ## Part Four - Alert Engine
 
 *No questions specified*
+
+Write something here.
