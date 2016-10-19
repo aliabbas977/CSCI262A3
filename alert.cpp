@@ -44,8 +44,8 @@ int alert_engine(const std::vector<Vehicle_Type>& vehicles, int days)
         * See 'traffic.h' and 'traffic.cpp' for the Vehicle_Type details
         *
         * You will only need to read in the baseline stat files, and the live data stat files!!!
-        * Check the activity.cpp and analysis.cpp files for details on their format and naming
-        * The report.md file also helps describe their format and naming
+        * Check the analysis.h and analysis.cpp files for details on their format and naming
+        * The report.md file may also help describe their format and naming
         *     Baseline:  _day1.stats  _day2.stats
         *     Live Data:  day1.stats   day2.stats
         *
