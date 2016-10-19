@@ -6,8 +6,6 @@ Code stuff:
 
 >main.cpp     : main driver file (i.e. the actual program stuff)
 
->traffic.h    : vehicle types and statistics header
-
 >traffic.cpp  : vehicle types and statistics implementation
 
 >activity.cpp : activity engine and log generator stuff
@@ -16,9 +14,17 @@ Code stuff:
 
 >alert.cpp    : alert engine stuff
 
->makefile     : obviously for make (to compile on banshee)
-
 Other:
+
+>traffic.h    : vehicle types and statistics header
+
+>activity.h   : activity engine and log generator header
+
+>analysis.h   : analysis engine header
+
+>alert.h      : alert engine header
+
+>makefile     : obviously for make (to compile on banshee)
 
 >report.md    : put your report text in this markup file (to be put into a docx/pdf later)
 
