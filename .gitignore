@@ -1,5 +1,6 @@
 # Input files and logs
 *.txt
+*day*
 
 # Compiled Object files
 *.o
