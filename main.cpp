@@ -102,17 +102,31 @@ int main(int argc, char *argv[])
     generate_activity(vehicles, base_stats, base_road, base_days, 'true');
 
     /* PART THREE: CALL THE ANALYSIS ENGINE TO PRODUCE STATISTICS (BASELINE) */
+    perform_analysis(vehicles, base_road, base_days, 'true');
 
-    /* PART FOUR: CALL ACTIVITY ENGINE AND ANALYSIS ENGINE INPUT (LIVE DATA) AND CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
+    /* PART FOUR: PROMPT USER, CALL ACTIVITY ENGINE AND ANALYSIS ENGINE TO GENERATE LIVE DATA, THEN CALL ALERT ENGINE TO CHECK CONSISTENCY BETWEEN LIVE DATA AND BASELINE */
     while(true){
         cout << "Please specify a file to analyze or enter 'Q' to quit: ";
         cin >> buffer;
         if (buffer == "Q")
             break;
+        cout << '\n';
+        // try to open the specified live stats file and read in data
+        // if file cannot be opened or is empty then ask for another file
+        if (load_stats(buffer.c_str(), live_stats, live_road) == false)
+            continue;
         cout << "\nPlease enter the number of days to analyze: ";
+        // store the number of live days to be analyzed and enforce it to be between MIN_DAYS and MAX_DAYS
         cin >> live_days;
         live_days = enforce_days(live_days);
         cout << endl;
+        // generate live data and generate log files
+        generate_activity(vehicles, live_stats, live_road, live_days);
+        // analyze live data and generate stat files
+        perform_analysis(vehicles, live_road, live_days);
+        // check for consistency between live data and baseline by calling the alert engine
+        // output the total number of alerts raised
+        cout << alert_engine(live_days) << " alerts raised.\n";
     };
 
     return 0;
@@ -258,6 +272,8 @@ bool check_consistency(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
 
     if (consistent == true)
         cout << "No inconsistencies found.\n";
+
+    cout << '\n';
 
     return consistent;
 }
