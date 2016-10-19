@@ -32,11 +32,13 @@ Place answer here.
 
 **2. The name and format of the log file, with justification for the format. You will need to be able to read the log entries for subsequent parts of the program. The log file needs to be human readable.**
 
-We decided to have a separate log file for each individual day, and named the log files accordingly: day 1 is named day1.log, day 2 is named day2.log, etc.
+We decided to have a single log file for a call of the activity engine, however we also decided that we needed to keep separate log files for the baseline logs, and the live logs.
 
-We also decided to keep separate log files for the baseline statistics, and the live statistics. We implemented this by optionally passing in a token parameter to the activity engine that specified that the logs generated were to be baseline logs (we could have simply checked if the baseline log file existed and assumed the logs were baseline if they did not, however performing this check could cause problems across different platforms, so we decided on a simpler way). If the token parameter was there to indicate the generation log files were to be base log files, the filenames were prefixed with '_' to identify them as such: day 1 baseline is named _day1.log, day 2 baseline is named _day2.log, etc.
+We implemented this by optionally passing in a token parameter to the activity engine that specified that the logs generated were to be baseline logs (we could have simply checked if the baseline log file existed and assumed the logs were baseline if they did not, however performing this check could cause problems across different platforms, so we decided on a simpler way). If the token parameter was there to indicate the generation log files were to be base log files, the filename was base.log. If it wasn't, by default it was live.log.
 
-We decided to use a similar format to the vehicle types file and the statistics file for consistency, that is we decided to have each event on it's own line, with relevant data postfixed by a ':'. This not only kept things consistent, but also kept the log files concise and human readable. Types of events were indicated by the associated number outlined in the assignment specification (e.g. '1' for vehicle arrival), time and vehicle type were also logged, along with relevant data.
+We decided to use a similar format to the vehicle types file and the statistics file for consistency, that is we decided to have each event on it's own line, with relevant data postfixed by a ':'. This not only kept things consistent, but also kept the log files concise and human readable. Types of events were indicated by the associated number outlined in the assignment specification (e.g. '1' for vehicle arrival), day, time and vehicle type were also logged, along with relevant data.
+
+>Day:Event Number:Time:Vehicle Name:Speed:<etc>:<etc>:
 
 **3. Any alarms that may be raised during the activity, so an immediate detection of a problem.**
 
@@ -46,7 +48,15 @@ Place answer here.
 
 **1. Specify the file containing the daily totals for the events.**
 
-Place answer here.
+The daily totals are stored in a file called base_daily.stats (for baseline) or live_daily.stats (for live data). The statistics are stored in a file called base.stats (for baseline) and live.sats (for live data).
+
+We decided to take the same approach here and postfix data with ':'. The lines of the daily total files start with the day number, and the further five numbers represent counts of that associated event:
+
+>Day:Event 1 Count:Event 2 Count:Event 3 Count:Event 4 Count:Event 5 Count:
+
+The lines of the statistcs file generally follow Stats.txt (without the opening line counting the entries and describing the road).
+
+>Vehicle Type:Number Mean:Number Standard Deviation:Speed Mean:Speed Standard Deviation:
 
 **2. Possible anomalies in reading the logs.**
 
