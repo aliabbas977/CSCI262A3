@@ -18,10 +18,10 @@
 1:3:780:Red car:
 1:1:1144:Emergency:87:
 1:2:1152:Emergency:
-2:1:87:Red car:54
-2:1:120:Red car:48
-2:1:190:Taxi:69
-3:1:740:Elephant:15
-3:1:780:Red car:49
-3:1:1042:Bus:54
-4:1:400:Taxi:40
+2:1:87:Red car:54:
+2:1:120:Red car:48:
+2:1:190:Taxi:69:
+3:1:740:Elephant:15:
+3:1:780:Red car:49:
+3:1:1042:Bus:54:
+4:1:400:Taxi:40:
