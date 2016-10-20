@@ -64,7 +64,7 @@ bool perform_analysis(const vector<Vehicle_Type>& vehicles, int days, bool basel
                 if(it == -1){                          // not found so add a new one to vector
                     temp.update(day, token, type);
                     vehicle_data.push_back(temp);
-                } else {
+                } else {                               // found so we update that
                     vehicle_data[it].update(day, token, type);
                 }
             }
@@ -153,7 +153,7 @@ Vehicle_Data::Vehicle_Data()
 void Vehicle_Data::update(int day, string speed, string vehicle_type)
 {
     type = vehicle_type;
-    speeds[day].push_back(speed);
+    speeds[day - 1].push_back(speed);
 }
 
 // print vehicle data
@@ -182,25 +182,27 @@ void Vehicle_Data::calculate(int days)
     // add all volumes and speeds to linear working buffers
     for(int i = 0; i < days; i++){
         num_working.push_back(speeds[i].size());
-        for(int j = 0; j < speeds[j].size(); j++){
+        for(int j = 0; j < speeds[i].size(); j++){
             speeds_working.push_back(atoi(speeds[i][j].c_str()));
         }
     }
-    // calculate means
+    // calculate volume mean
     for(int i = 0; i < num_working.size(); i++){
         num_mean += num_working[i];
     }
     num_mean = num_mean / days;
+    // calculate speed mean
     for(int i = 0; i < speeds_working.size(); i++){
         speed_mean += speeds_working[i];
     }
     speed_mean = speed_mean / days;
-    // calculate SDs
+    // calculate volume SD
     for(int i = 0; i < num_working.size(); i++){
         num_sd += pow((num_working[i] - num_mean), 2);
     }
     num_sd = num_sd / days;
     num_sd = sqrt(num_sd);
+    // calculate speed SD
     for(int i = 0; i < speeds_working.size(); i++){
         speed_sd += pow((speeds_working[i] - speed_mean), 2);
     }

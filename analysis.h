@@ -32,10 +32,10 @@ class Vehicle_Data{
         void calculate(int);                                      // Updates means and SDs based on current data
         std::string type;
         std::vector<std::string> speeds[100];                     // Stores speeds by day
-        int num_mean;
-        int num_sd;
-        int speed_mean;
-        int speed_sd;
+        double num_mean;
+        double num_sd;
+        double speed_mean;
+        double speed_sd;
 };
 
 bool perform_analysis(const std::vector<Vehicle_Type>&, int days, bool baseline = false);
