@@ -56,7 +56,7 @@
 using namespace std;
 
 const int MIN_DAYS = 1;
-const int MAX_DAYS = 100;       // if you change this you need to change it in analysis.cpp too
+const int MAX_DAYS = 100;                      // careful: used in analysis.h too
 
 bool load_vehicles(const char*, vector<Vehicle_Type>&);
 bool load_stats(const char*, vector<Vehicle_Stats>&, Road_Stats&);
