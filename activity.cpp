@@ -8,6 +8,9 @@
 #include <vector>
 #include "activity.h"
 #include "traffic.h"
+#include <stdlib.h>
+#include <time.h>
+#include <fstream>
 using namespace std;
 
 // generates activity and logs events
@@ -17,8 +20,10 @@ using namespace std;
 //     if a file cannot be opened for writing, returns false
 bool generate_activity(const vector<Vehicle_Type>& vehicles, const vector<Vehicle_Stats>& stats, const Road_Stats& road, int days, bool baseline)
 {
+	int number_of_vehicles_in_the_system = 0;
     const int time_blocks = 24 * 60;                      // use 1 minute blocks of time (24 hours * 60 minutes)
-
+	ofstream myfile;
+	myfile.open ("examplelog.txt");
     cout << "Activity generation in progress.\n";
     for(int i = 1; i <= days; i++){
         cout << "Processing activity for day " << i << "...\n";
@@ -66,7 +71,19 @@ bool generate_activity(const vector<Vehicle_Type>& vehicles, const vector<Vehicl
          *
          * don't forget to write up the relevant details in the report.md file. i have already answered one of the questions about the logfile format, but you can add to it if you like.
          */
+		 
+		 int j=0;
+        for(int time = 0; time < time_blocks; time++){
+			/*
+            cout << i << ":" << "1" <<":"<< time << ":" << vehicles.at(j).get_type()<<endl;;
+			*/
+			int v = rand() % vehicles.size();
+			//cout << i << ":" << "1" <<":"<< time << ":" << vehicles.at(v).get_type()<<endl;
+			myfile << i << ":" << "1" <<":"<< time << ":" << vehicles.at(v).get_type()<<"\n";
+        }
     }
+	
+	myfile.close();
     cout << "Event generation complete.\n\n";
 
     return true;
